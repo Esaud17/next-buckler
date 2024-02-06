@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Next-Buckler" src="./" width="300" />
+  <img alt="Next-Buckler" src="./assets/images/buckler.png" width="300" />
 </p>
 <h1 align="center">
   Next-Buckler
