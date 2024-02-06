@@ -1,0 +1,77 @@
+{
+  "name": "next-buckler",
+  "version": "1.0.4",
+  "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
+    "commit": "git add . && cz",
+    "semantic-release": "semantic-release --branches main",
+    "ionic:build": "npm run build",
+    "ionic:serve": "npm run start"
+  },
+  "author": "esaud.rivera",
+  "license": "MIT",
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^11.0.2",
+    "@types/react": "^18.2.53",
+    "@types/react-dom": "^18.2.18",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.1.0",
+    "husky": "^9.0.10",
+    "next": "^14.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "semantic-release": "^23.0.0",
+    "size-limit": "^11.0.2",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.6.2",
+    "typescript": "^3.9.10"
+  },
+  "size-limit": [
+    {
+      "path": "dist/next-buckler.min.js",
+      "limit": "25 KB"
+    },
+    {
+      "path": "dist/next-buckler.full.js",
+      "limit": "25 KB"
+    }
+  ],
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Esaud17/next-buckler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Esaud17/next-buckler/issues"
+  },
+  "homepage": "https://esaud.github.io/next-buckler/",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
