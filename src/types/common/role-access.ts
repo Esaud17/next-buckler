@@ -1,6 +1,6 @@
 export type RoleAccess<Routes extends string[]> = {
   [index: string]: {
-    grantedRoutes: Routes,
+    grantedRoutes: Routes
     accessRoute?: Routes[number]
   }
 }

@@ -9,10 +9,10 @@ export function BucklerGuard(props: AuthProps): JSX.Element
 export function BucklerGuard(props: RBACProps): JSX.Element
 
 export function BucklerGuard(props: SingleProps) {
-         const { showForRole, showIf, fallback = null, RBAC, userRoles, children } = props
+  const { showForRole, showIf, fallback = null, RBAC, userRoles, children } = props
 
-         if (RBAC) return <>{showForRole === userRoles ? children : null}</>
-         if (showIf) return <>{children}</>
+  if (RBAC) return <>{showForRole === userRoles ? children : null}</>
+  if (showIf) return <>{children}</>
 
-         return <>{fallback}</>
-       }
+  return <>{fallback}</>
+}

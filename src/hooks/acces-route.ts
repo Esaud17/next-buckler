@@ -1,4 +1,4 @@
-import { RoleAccess } from "../types/common/role-access"
+import { RoleAccess } from '../types/common/role-access'
 
 export function getAccessRoute(
   RBAC: RoleAccess<string[]> | undefined,

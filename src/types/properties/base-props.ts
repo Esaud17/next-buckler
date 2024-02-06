@@ -1,8 +1,7 @@
-import { ReactNode } from 'react';
-import { HOC } from '../common/hoc';
+import { ReactNode } from 'react'
+import { HOC } from '../common/hoc'
 
 export type BaseProps = HOC & {
-  RBAC?: never;
-  showIf?: never;
-};
-
+  RBAC?: never
+  showIf?: never
+}
