@@ -13,7 +13,8 @@ Next-Buckler goes beyond basic role-based access control (RBAC) by providing pow
 
 ### Simple and Compound Roles
 
-Define straightforward roles like 'admin,' 'editor,' or create compound roles with unique combinations to suit intricate user hierarchies.
+Define straightforward roles like 'app-role-admin,' 'app-role-editor,' or create compound roles with unique combinations to suit intricate user hierarchies.
+'app-role-admin,' 'app-opt-view-editor,'
 
 ## Motivation
 
