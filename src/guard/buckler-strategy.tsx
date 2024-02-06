@@ -20,7 +20,7 @@ export function BucklerStrategy<
          hybridRoutes,
          LoadingComponent,
          RBAC,
-         userRole,
+         userRoles,
          children,
        }: BucklerProps<PrivateRoutesList, PublicRoutesList> & { children: ReactNode }) {
          let view = <>{children}</>
@@ -29,18 +29,18 @@ export function BucklerStrategy<
          const pathIsPublic = verifyPath(publicRoutes, pathname)
          const pathIsHybrid = verifyPath(hybridRoutes, pathname)
 
-         const access = getAccessRoute(RBAC, userRole, accessRoute, defaultRoute)
-         const grantedRoutes = getGrantedRoutes(RBAC, userRole, access)
-         const pathIsAuthorized = RBAC && userRole && verifyPath(grantedRoutes, pathname)
+         const access = getAccessRoute(RBAC, userRoles, accessRoute, defaultRoute)
+         const grantedRoutes = getGrantedRoutes(RBAC, userRoles, access)
+         const pathIsAuthorized = RBAC && userRoles && verifyPath(grantedRoutes, pathname)
 
          useEffect(() => {
            if (!isAuth && !isLoading && pathIsPrivate) replace(loginRoute)
            if (isAuth && !isLoading && pathIsPublic) replace(access || defaultRoute)
-           if (isAuth && userRole && !isLoading && !pathIsHybrid && !pathIsAuthorized)
+           if (isAuth && userRoles && !isLoading && !pathIsHybrid && !pathIsAuthorized)
              replace(access || '/')
          }, [
            replace,
-           userRole,
+           userRoles,
            access,
            isAuth,
            isLoading,
@@ -54,7 +54,7 @@ export function BucklerStrategy<
          const loadingPathPrivate = (isLoading || !isAuth) && pathIsPrivate
          const loadingPathPublic = (isLoading || isAuth) && pathIsPublic
          const loadingPathAuthHybrid =
-           (isLoading || userRole) && !pathIsAuthorized && !pathIsHybrid
+           (isLoading || userRoles) && !pathIsAuthorized && !pathIsHybrid
          const loadingPathHybrid = isLoading && pathIsHybrid
 
          if (

@@ -29,7 +29,7 @@ export type BucklerProps<
 
   RBAC?: never
   
-  userRole?: never
+  userRoles?: never
 } | {
   
   isAuth: boolean
@@ -54,5 +54,5 @@ export type BucklerProps<
 
   RBAC: RoleAccess<PrivateRoutesList[number][]>
   
-  userRole: string[] | undefined
+  userRoles: string[] | undefined
 }

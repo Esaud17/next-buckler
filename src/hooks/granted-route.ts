@@ -2,12 +2,12 @@ import { RoleAccess } from "../types/common/role-access"
 
 export function getGrantedRoutes(
   RBAC: RoleAccess<string[]> | undefined,
-  userRole: string[] | undefined,
+  userRoles: string[] | undefined,
   accessRoute?: string | undefined
 ) {
   let grantedRoutes: string[] = []
-  if (RBAC && userRole) {
-    for (const role of userRole) {
+  if (RBAC && userRoles) {
+    for (const role of userRoles) {
       if (RBAC.hasOwnProperty(role) && RBAC[role].hasOwnProperty('grantedRoutes')) {
         grantedRoutes = grantedRoutes.concat(RBAC[role].grantedRoutes)
       }
