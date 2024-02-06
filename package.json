@@ -17,9 +17,7 @@
     "size": "size-limit",
     "analyze": "size-limit --why",
     "commit": "git add . && cz",
-    "semantic-release": "semantic-release --branches main",
-    "ionic:build": "npm run build",
-    "ionic:serve": "npm run start"
+    "semantic-release": "semantic-release --branches main"
   },
   "author": "esaud.rivera",
   "license": "MIT",
@@ -43,11 +41,11 @@
   },
   "size-limit": [
     {
-      "path": "dist/next-buckler.min.js",
+      "path": "dist/next-buckler.cjs.production.min.js",
       "limit": "25 KB"
     },
     {
-      "path": "dist/next-buckler.full.js",
+      "path": "dist/next-buckler.esm.js",
       "limit": "25 KB"
     }
   ],
