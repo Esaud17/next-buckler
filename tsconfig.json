@@ -1,8 +1,5 @@
 {
   "include": ["src", "types"],
-  "output" :{
-    "format":"bcl"
-  },
   "compilerOptions": {
     "module": "esnext",
     "lib": ["dom", "esnext"],
