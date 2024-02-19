@@ -1,6 +1,6 @@
 {
   "name": "next-buckler",
-  "version": "1.0.4",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -62,7 +62,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Esaud17/next-buckler.git"
+    "url": "git+https://github.com/Esaud17/next-buckler.git"
   },
   "bugs": {
     "url": "https://github.com/Esaud17/next-buckler/issues"
