@@ -48,6 +48,7 @@ export function BucklerStrategy<
     pathIsPublic,
     pathIsHybrid,
     pathIsAuthorized,
+    defaultRoute,
   ])
 
   const loadingPathPrivate = (isLoading || !isAuth) && pathIsPrivate
