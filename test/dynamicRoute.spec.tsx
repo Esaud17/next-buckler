@@ -25,10 +25,20 @@ describe('Verify different kinds of routes', () => {
     }
   })
 
-  it('returns true when a route is  dynamic', () => {
-    for (let i = 0; i < dynamicRoutes.length; i++) {
-      expect(verifyPath(dynamicRoutes,'/users/a/b/c')).toEqual(true)
-    }
+  it('correctly matches paths against dynamic route patterns', () => {
+    // /users/[slug] - matches single segment only
+    expect(verifyPath(['/users/[slug]'], '/users/a')).toEqual(true)
+    expect(verifyPath(['/users/[slug]'], '/users/a/b')).toEqual(false) // too many segments
+    
+    // /users/[...slugs] - matches one or more segments
+    expect(verifyPath(['/users/[...slugs]'], '/users/a')).toEqual(true)
+    expect(verifyPath(['/users/[...slugs]'], '/users/a/b')).toEqual(true)
+    expect(verifyPath(['/users/[...slugs]'], '/users/a/b/c')).toEqual(true)
+    
+    // /users/[[...slug]] - matches zero or more segments
+    expect(verifyPath(['/users/[[...slug]]'], '/users')).toEqual(true)
+    expect(verifyPath(['/users/[[...slug]]'], '/users/a')).toEqual(true)
+    expect(verifyPath(['/users/[[...slug]]'], '/users/a/b/c')).toEqual(true)
   })
 
 })

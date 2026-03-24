@@ -11,7 +11,13 @@ export function BucklerGuard(props: RBACProps): JSX.Element
 export function BucklerGuard(props: SingleProps) {
   const { showForRole, showIf, fallback = null, RBAC, userRoles, children } = props
 
-  if (RBAC) return <>{showForRole === userRoles ? children : null}</>
+  // RBAC mode: check if user has the required role
+  if (RBAC && showForRole) {
+    const hasRole = userRoles?.includes(showForRole) ?? false
+    return <>{hasRole ? children : fallback}</>
+  }
+
+  // Simple conditional rendering
   if (showIf) return <>{children}</>
 
   return <>{fallback}</>
