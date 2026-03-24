@@ -26,12 +26,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/esaud/next-buckler.git"
+    "url": "https://github.com/esaud17/next-buckler.git"
   },
   "bugs": {
-    "url": "https://github.com/esaud/next-buckler/issues"
+    "url": "https://github.com/esaud17/next-buckler/issues"
   },
-  "homepage": "https://github.com/esaud/next-buckler#readme",
+  "homepage": "https://github.com/esaud17/next-buckler#readme",
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
@@ -43,7 +43,7 @@
     "commit": "git add . && cz",
     "semantic-release": "semantic-release --branches main"
   },
-  "author": "esaud.rivera",
+  "author": "esaud17",
   "license": "MIT",
   "devDependencies": {
     "@size-limit/preset-small-lib": "^11.0.2",
