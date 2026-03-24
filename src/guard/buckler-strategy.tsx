@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useMemo, useRef } from 'react'
-import { verifyPath } from '../hooks/verify-path'
-import { getAccessRoute } from '../hooks/acces-route'
-import { getGrantedRoutes } from '../hooks/granted-route'
+import { verifyPath } from '../utils/verify-path'
+import { getAccessRoute } from '../utils/acces-route'
+import { getGrantedRoutes } from '../utils/granted-route'
 import { BucklerProps, UnauthorizedAccessInfo } from '../types/properties/buckler-props'
 
 export function BucklerStrategy<

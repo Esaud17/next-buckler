@@ -1,4 +1,4 @@
-import { verifyPath } from '../src/hooks/verify-path'
+import { verifyPath } from '../src/utils/verify-path'
 
 describe('Verify different kinds of routes', () => {
   const privateRoutes = ['/users', '/income', '/dashboard']

@@ -1,13 +1,37 @@
 {
   "name": "next-buckler",
-  "version": "1.1.5",
-  "description": "",
+  "version": "1.2.0",
+  "description": "🛡️ The shield that every Next.js app needs. Effortless authentication and authorization management with menu-based RBAC configuration.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
     "src"
   ],
+  "keywords": [
+    "nextjs",
+    "next",
+    "authentication",
+    "authorization",
+    "rbac",
+    "auth",
+    "next-auth",
+    "route-protection",
+    "access-control",
+    "security",
+    "typescript",
+    "react",
+    "menu-configuration",
+    "permissions"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/esaud/next-buckler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/esaud/next-buckler/issues"
+  },
+  "homepage": "https://github.com/esaud/next-buckler#readme",
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
@@ -60,14 +84,6 @@
   "engines": {
     "node": ">=18"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Esaud17/next-buckler.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Esaud17/next-buckler/issues"
-  },
-  "homepage": "https://esaud.github.io/next-buckler/",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

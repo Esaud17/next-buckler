@@ -1,6 +1,6 @@
-import { verifyPath } from '../src/hooks/verify-path'
-import { getAccessRoute } from '../src/hooks/acces-route'
-import { getGrantedRoutes } from '../src/hooks/granted-route'
+import { verifyPath } from '../src/utils/verify-path'
+import { getAccessRoute } from '../src/utils/acces-route'
+import { getGrantedRoutes } from '../src/utils/granted-route'
 import { RoleAccess } from '../src/types/common/role-access'
 
 describe('Security Tests - Path Traversal Protection', () => {

@@ -1,6 +1,6 @@
-import { isDynamicRoute } from '../src/hooks/dynamic-route'
-import { dynamicReplace } from '../src/hooks/dynamic-replace'
-import { verifyPath } from '../src/hooks/verify-path'
+import { isDynamicRoute } from '../src/utils/dynamic-route'
+import { dynamicReplace } from '../src/utils/dynamic-replace'
+import { verifyPath } from '../src/utils/verify-path'
 
 describe('Verify different kinds of routes', () => {
   const dynamicRoutes = ['/users/[[...slug]]', '/users/[slug]', '/users/[...slugs]']
