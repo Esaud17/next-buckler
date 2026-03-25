@@ -2288,10 +2288,10 @@ This library was inspired by **[NextShield](https://github.com/imjulianeral/next
 ## 🔗 Useful Links
 
 - **📦 npm Package**: [next-buckler](https://www.npmjs.com/package/next-buckler)
-- **🐙 GitHub Repository**: [esaud/next-buckler](https://github.com/esaud/next-buckler)
+- **🐙 GitHub Repository**: [esaud/next-buckler](https://github.com/esaud17/next-buckler)
 - **📝 Changelog**: [CHANGELOG.md](./CHANGELOG.md)
-- **🐛 Report Issues**: [GitHub Issues](https://github.com/esaud/next-buckler/issues)
-- **💡 Feature Requests**: [GitHub Discussions](https://github.com/esaud/next-buckler/discussions)
+- **🐛 Report Issues**: [GitHub Issues](https://github.com/esaud17/next-buckler/issues)
+- **💡 Feature Requests**: [GitHub Discussions](https://github.com/esaud17/next-buckler/discussions)
 
 ---
 
