@@ -26,7 +26,7 @@
 
 ---
 
-## � What's New in v1.2.0
+## � What's New in v1.2.5
 
 🎉 **Menu-Based Configuration** - The biggest feature yet!
 
@@ -559,7 +559,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 ---
 
-## 🎯 Menu-Based Configuration (NEW in v1.2.0)
+## 🎯 Menu-Based Configuration (NEW in v1.2.5)
 
 **The Problem:** Most applications define navigation menus AND route permissions separately, leading to duplicate code and sync issues.
 
@@ -2273,7 +2273,7 @@ After countless hours writing the same authentication boilerplate across project
 - Writing repetitive `useEffect` hooks for route protection
 - Keeping menu configurations in sync with route permissions
 
-**Next-Buckler** solves all of this in a single, elegant solution. With v1.2.0's menu-based configuration, you can now eliminate an additional 150-200 lines of boilerplate per project.
+**Next-Buckler** solves all of this in a single, elegant solution. With v1.2.5's menu-based configuration, you can now eliminate an additional 150-200 lines of boilerplate per project.
 
 ### 💙 Credits
 
