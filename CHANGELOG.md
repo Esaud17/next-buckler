@@ -5,6 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-03-24
+
+### 🐛 Critical Bug Fix
+
+#### Authentication Flow Fix
+- **Fixed** Critical bug where RBAC validation could block valid users
+- **Fixed** `strictMode` behavior - now only logs warnings in development, never blocks users
+- **Changed** Validation logic: warnings appear AFTER role processing, not before
+- **Improved** Compatibility with optional roles and permissions not defined in RBAC
+- **Improved** Support for multiple role types (e.g., `-rol-` principals, `-opt-` permissions)
+
+### 📝 What Changed
+
+**Before (v1.2.0 - Broken):**
+```typescript
+// Validation with continue blocked users
+if (!RBAC.hasOwnProperty(role)) {
+  if (strictMode) throw new Error(...)
+  continue // ← Blocked valid users
+}
+```
+
+**Now (v1.2.1 - Fixed):**
+```typescript
+// Process role first
+if (RBAC[role] && RBAC[role].hasOwnProperty('grantedRoutes')) {
+  grantedRoutes = grantedRoutes.concat(RBAC[role].grantedRoutes)
+}
+// Warning AFTER (non-blocking, development only)
+if (strictMode && !RBAC.hasOwnProperty(role) && process.env.NODE_ENV === 'development') {
+  console.warn(...) // Never blocks
+}
+```
+
+### ✅ Validation
+
+- 82 tests passing
+- Bundle size: 3.6 KB (CJS), 3.64 KB (ESM)
+- 100% backward compatible with v1.1.5
+- Zero breaking changes
+
 ## [1.2.0] - 2026-03-24
 
 ### 🎉 Major Features
