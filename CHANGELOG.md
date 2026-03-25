@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.2.5] - 2026-03-24
 
+### 🎉 New Features
+
+#### Flexible Role Assignment
+- **Added** Support for `roles: string[]` array in MenuItem type
+- **Added** Support for both `role: string | null` (single) and `roles: string[] | null` (array) formats
+- **Improved** Menu processing to handle multiple roles per item - any matching role grants access
+- **Improved** Route grouper to generate RBAC configuration for each role in roles array
+- **Improved** Validation to check all roles in roles array against defined roles
+
+**Usage:**
+```typescript
+// Option 1: Single role
+{ key: 'admin', path: '/admin', role: 'admin', type: 'private' }
+
+// Option 2: Multiple roles (NEW!)
+{ key: 'dashboard', path: '/dashboard', roles: ['admin', 'editor'], type: 'private' }
+```
+
 ### 🐛 Critical Bug Fix
 
 #### Authentication Flow Fix

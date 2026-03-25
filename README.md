@@ -26,14 +26,15 @@
 
 ---
 
-## � What's New in v1.2.5
+## � What's New in v1.2.6
 
 🎉 **Menu-Based Configuration** - The biggest feature yet!
 
 - **🎯 Single Source of Truth**: Define your navigation menu once, auto-generate RBAC configuration
 - **📉 79% Less Code**: Reduce ~150-200 lines of boilerplate per project
 - **🔒 Security Built-In**: Automatic validation prevents duplicate routes, role leakage, and misconfigurations
-- **🔌 NextAuth Integration**: Optional `useBucklerSession()` hook and role processing helpers
+- **� Flexible Role Assignment**: Use `role: 'admin'` (single) OR `roles: ['admin', 'editor']` (multiple) - both formats supported!
+- **�🔌 NextAuth Integration**: Optional `useBucklerSession()` hook and role processing helpers
 - **🛠️ Advanced Utilities**: Access internal functions like `verifyPath`, `getGrantedRoutes`, `isDynamicRoute`
 - **🌳 Tree-Shakeable**: Import only what you need - integrations don't bloat your bundle
 
@@ -619,7 +620,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 ---
 
-## 🎯 Menu-Based Configuration (NEW in v1.2.5)
+## 🎯 Menu-Based Configuration (NEW in v1.2.6)
 
 **The Problem:** Most applications define navigation menus AND route permissions separately, leading to duplicate code and sync issues.
 
@@ -1031,7 +1032,9 @@ interface MenuItem<TIcon = any> {
   label: string
   icon?: TIcon
   type: 'private' | 'public' | 'hybrid'
-  roles?: string[]
+  role?: string | null        // Single role (alternative to roles array)
+  roles?: string[] | null     // Multiple roles (alternative to role)
+  hidden?: boolean | null     // Explicit visibility control
   children?: MenuItem<TIcon>[]
   metadata?: Record<string, any>
 }
@@ -1039,13 +1042,45 @@ interface MenuItem<TIcon = any> {
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `path` | `string` | ✅ | Route path (supports Next.js dynamic routes) |
+| `path` | `string \| null` | ✅ | Route path (supports Next.js dynamic routes, `null` for parent-only items) |
 | `label` | `string` | ✅ | Display label for the menu item |
 | `icon` | `TIcon` | ❌ | Icon component or identifier (generic type) |
 | `type` | `'private' \| 'public' \| 'hybrid'` | ✅ | Route access type |
-| `roles` | `string[]` | ❌ | Roles allowed to see this item (required for private routes) |
+| `role` | `string \| null` | ❌ | **Single role** - Only this role can access (use `role` OR `roles`, not both) |
+| `roles` | `string[] \| null` | ❌ | **Multiple roles** - Any of these roles can access (use `role` OR `roles`, not both) |
+| `hidden` | `boolean \| null` | ❌ | Explicit visibility: `true` = hidden, `false` = visible, `null` = force visible |
 | `children` | `MenuItem<TIcon>[]` | ❌ | Nested menu items |
 | `metadata` | `Record<string, any>` | ❌ | Custom metadata for your app |
+
+**Role Configuration:**
+
+You can use **either** `role` (singular) **or** `roles` (array), depending on your needs:
+
+```typescript
+// Option 1: Single role
+{
+  path: '/admin',
+  label: 'Admin Panel',
+  type: 'private',
+  role: 'admin'  // Only 'admin' role can access
+}
+
+// Option 2: Multiple roles (any role grants access)
+{
+  path: '/dashboard',
+  label: 'Dashboard',
+  type: 'private',
+  roles: ['admin', 'editor', 'viewer']  // Any of these roles can access
+}
+
+// Option 3: No role (all authenticated users for private, or public)
+{
+  path: '/profile',
+  label: 'My Profile',
+  type: 'private',
+  role: null  // All authenticated users can access
+}
+```
 
 ---
 
@@ -2410,7 +2445,7 @@ After countless hours writing the same authentication boilerplate across project
 - Writing repetitive `useEffect` hooks for route protection
 - Keeping menu configurations in sync with route permissions
 
-**Next-Buckler** solves all of this in a single, elegant solution. With v1.2.5's menu-based configuration, you can now eliminate an additional 150-200 lines of boilerplate per project.
+**Next-Buckler** solves all of this in a single, elegant solution. With v1.2.6's menu-based configuration, you can now eliminate an additional 150-200 lines of boilerplate per project.
 
 ### 💙 Credits
 
