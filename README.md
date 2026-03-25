@@ -26,7 +26,7 @@
 
 ---
 
-## � What's New in v1.2.6
+##  What's New in v1.2.6
 
 🎉 **Menu-Based Configuration** - The biggest feature yet!
 
@@ -42,7 +42,7 @@
 
 ---
 
-## �🎯 Why Next-Buckler?
+## 🎯 Why Next-Buckler?
 
 After implementing authentication and authorization boilerplate across countless projects, I created **Next-Buckler** to solve these pain points once and for all:
 
