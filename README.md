@@ -18,7 +18,7 @@
   <a href="#-installation">Installation</a> •
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-complete-implementation-examples">Examples</a> •
-  <a href="#-menu-based-configuration-new-in-v120">Menu-Based Config</a> •
+  <a href="#-menu-based-configuration-new-in-v125">Menu-Based Config</a> •
   <a href="#-key-advantages">Advantages</a> •
   <a href="#-api-reference">API Reference</a> •
   <a href="#-advanced-utilities">Advanced Utilities</a>
@@ -37,7 +37,7 @@
 - **🛠️ Advanced Utilities**: Access internal functions like `verifyPath`, `getGrantedRoutes`, `isDynamicRoute`
 - **🌳 Tree-Shakeable**: Import only what you need - integrations don't bloat your bundle
 
-[See Full Documentation](#-menu-based-configuration-new-in-v120) | [Before & After Comparison](#-before--after-comparison)
+[See Full Documentation](#-menu-based-configuration-new-in-v125) | [Before & After Comparison](#-before--after-comparison)
 
 ---
 
@@ -84,7 +84,67 @@ pnpm add next-buckler
 
 ---
 
-## 🚀 Quick Start
+## � Import Reference
+
+All exports are available from the main package entry point:
+
+```typescript
+import { /* any export */ } from 'next-buckler'
+```
+
+### Core Components
+
+| Export | Category | Description |
+|--------|----------|-------------|
+| `Buckler` | Component | Main route protection wrapper component |
+| `BucklerGuard` | Component | Conditional rendering component for role-based UI |
+
+### Helper Functions (Menu-Based Configuration)
+
+| Export | Category | Description |
+|--------|----------|-------------|
+| `processMenuItems` | Helper | Process menu structure with role-based visibility |
+| `groupRoutesByType` | Helper | Auto-generate RBAC configuration from menu |
+| `mergeGroupedRoutes` | Helper | Merge multiple route configurations |
+
+### Utility Functions (Advanced)
+
+| Export | Category | Description |
+|--------|----------|-------------|
+| `verifyPath` | Utility | Validate paths with security checks (dynamic routes support) |
+| `isDynamicRoute` | Utility | Detect if route contains dynamic segments |
+| `getAccessRoute` | Utility | Determine user's default route based on roles |
+| `getGrantedRoutes` | Utility | Calculate all accessible routes for user |
+
+### NextAuth.js Integration (Optional)
+
+| Export | Category | Description |
+|--------|----------|-------------|
+| `useBucklerSession` | Hook | NextAuth session hook with Buckler-compatible output |
+| `processSessionRoles` | Function | Extract and normalize roles from NextAuth session |
+| `createRoleHandler` | Factory | Create custom role validation logic |
+
+### TypeScript Types
+
+| Export | Category | Description |
+|--------|----------|-------------|
+| `BucklerProps` | Type | Props for Buckler component |
+| `UnauthorizedAccessInfo` | Type | Callback info for unauthorized access attempts |
+| `RoleAccess` | Type | RBAC configuration type |
+| `MenuItem` | Type | Menu item structure for menu-based configuration |
+| `RouteType` | Type | Route type union: `'private' \| 'public' \| 'hybrid'` |
+| `GroupedRoutes` | Type | Output type of `groupRoutesByType()` |
+| `MenuProcessorOptions` | Type | Options for menu processing |
+| `ValidationResult` | Type | Validation result structure |
+| `ProcessedMenu` | Type | Output type of `processMenuItems()` |
+| `BucklerSession` | Type | NextAuth session type for Buckler |
+| `SessionProcessorOptions` | Type | Options for session role processing |
+
+**Note:** All integrations are tree-shakeable. NextAuth helpers are only included in your bundle if you import them.
+
+---
+
+## �🚀 Quick Start
 
 ### Step 1: Import Components
 
@@ -720,8 +780,7 @@ export const menuConfig: MenuItem[] = [
 ]
 
 // pages/_app.tsx
-import { Buckler, processMenuItems, groupRoutesByType } from 'next-buckler'
-import { useBucklerSession } from 'next-buckler/integrations'
+import { Buckler, processMenuItems, groupRoutesByType, useBucklerSession } from 'next-buckler'
 import { menuConfig } from '@/config/menu'
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -848,9 +907,9 @@ import { SessionProvider } from 'next-auth/react'
 import { 
   Buckler, 
   processMenuItems, 
-  groupRoutesByType 
+  groupRoutesByType,
+  useBucklerSession
 } from 'next-buckler'
-import { useBucklerSession } from 'next-buckler/integrations'
 import { menuConfig } from '@/config/menu'
 import Layout from '@/components/Layout'
 
@@ -1049,6 +1108,43 @@ if (validationErrors.length > 0) {
 
 ---
 
+#### `ValidationResult` Type
+
+Validation result returned by menu processing functions.
+
+```typescript
+interface ValidationResult {
+  valid: boolean      // Overall validation status
+  errors: string[]    // Critical validation errors
+  warnings: string[]  // Non-critical warnings
+}
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `valid` | `boolean` | `true` if validation passed, `false` if errors found |
+| `errors` | `string[]` | Array of critical validation errors |
+| `warnings` | `string[]` | Array of non-critical warnings |
+
+**Example:**
+
+```typescript
+import { processMenuItems, ValidationResult } from 'next-buckler'
+
+const result = processMenuItems(menuConfig, userRoles, { strictMode: true })
+
+// Check validation results
+if (!result.validation.valid) {
+  console.error('Menu validation failed:', result.validation.errors)
+}
+
+if (result.validation.warnings.length > 0) {
+  console.warn('Menu validation warnings:', result.validation.warnings)
+}
+```
+
+---
+
 #### `groupRoutesByType()` Function
 
 Generate route configuration and RBAC config from menu structure.
@@ -1171,7 +1267,7 @@ Next-Buckler provides optional helpers for NextAuth.js integration.
 Wraps NextAuth's `useSession` with Buckler-compatible output.
 
 ```typescript
-import { useBucklerSession } from 'next-buckler/integrations'
+import { useBucklerSession } from 'next-buckler'
 
 function MyComponent() {
   const { isAuth, isLoading, userRoles, session } = useBucklerSession()
@@ -1199,7 +1295,7 @@ function MyComponent() {
 Extract and normalize roles from NextAuth session.
 
 ```typescript
-import { processSessionRoles } from 'next-buckler/integrations'
+import { processSessionRoles } from 'next-buckler'
 import { useSession } from 'next-auth/react'
 
 function MyApp() {
@@ -1234,6 +1330,47 @@ session.user = {}
 // → ['user'] (default fallback)
 ```
 
+**Options:**
+
+`processSessionRoles()` accepts an optional `SessionProcessorOptions` parameter:
+
+```typescript
+interface SessionProcessorOptions {
+  anonymousRole?: string       // Role for unauthenticated users (default: 'anonymous')
+  defaultRole?: string         // Role for authenticated users without specific roles (default: 'user')
+  rolePrefix?: string          // Prefix for role normalization (e.g., 'app-role-')
+  roleFilter?: (role: string) => boolean  // Filter function to validate roles
+  minValidRoles?: number       // Minimum valid roles required (default: 1)
+}
+```
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `anonymousRole` | `string` | `'anonymous'` | Role assigned to unauthenticated users |
+| `defaultRole` | `string` | `'user'` | Fallback role for authenticated users without specific roles |
+| `rolePrefix` | `string` | `''` | Prefix for role normalization (e.g., `'app-role-'` → `'admin'` becomes `'app-role-admin'`) |
+| `roleFilter` | `function` | `() => true` | Filter function to validate roles before processing |
+| `minValidRoles` | `number` | `1` | If user has fewer valid roles, `defaultRole` is used |
+
+**Example with Options:**
+
+```typescript
+import { processSessionRoles } from 'next-buckler'
+
+const userRoles = processSessionRoles(session, {
+  rolePrefix: 'app-role-',
+  roleFilter: (role) => role.startsWith('app-role-'),
+  defaultRole: 'viewer',
+  minValidRoles: 1
+})
+
+// Session with roles: ['app-role-admin', 'app-role-editor']
+// → ['app-role-admin', 'app-role-editor']
+
+// Session with invalid roles: ['guest', 'temp']
+// → ['viewer'] (fallback to defaultRole)
+```
+
 ---
 
 #### `createRoleHandler()` Function
@@ -1241,7 +1378,7 @@ session.user = {}
 Create custom role validation logic with priority rules.
 
 ```typescript
-import { createRoleHandler } from 'next-buckler/integrations'
+import { createRoleHandler } from 'next-buckler'
 
 const roleHandler = createRoleHandler({
   roleOrder: ['super-admin', 'admin', 'editor', 'user'],
@@ -2235,7 +2372,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ```bash
 # Clone the repository
-git clone https://github.com/esaud/next-buckler.git
+git clone https://github.com/esaud17/next-buckler.git
 
 # Install dependencies
 npm install
@@ -2297,7 +2434,7 @@ This library was inspired by **[NextShield](https://github.com/imjulianeral/next
 
 ## 📄 License
 
-MIT © [esaud.rivera](https://github.com/esaud)
+MIT © [esaud.rivera](https://github.com/esaud17)
 
 ---
 
