@@ -145,7 +145,7 @@ import { /* any export */ } from 'next-buckler'
 
 ---
 
-## �🚀 Quick Start
+## Quick Start
 
 ### Step 1: Import Components
 
