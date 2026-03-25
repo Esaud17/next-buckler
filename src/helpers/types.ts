@@ -25,7 +25,10 @@ export type MenuItem<TIcon = unknown> = {
   type: RouteType
   
   /** Role required to access this route (null = no specific role) */
-  role: string | null
+  role?: string | null
+  
+  /** Roles array - any of these roles grants access (alternative to role) */
+  roles?: string[] | null
   
   /** UI visibility flag (separate from security) */
   hidden?: boolean | null

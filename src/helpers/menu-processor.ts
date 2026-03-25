@@ -176,13 +176,22 @@ export function processMenuItems<TIcon = unknown>(
 
   // Process menu items recursively
   const processItem = (item: MenuItem<TIcon>): MenuItem<TIcon> => {
-    // Determine visibility based on role
+    // Determine visibility based on role or roles
     let isVisible = true
     
+    // Handle single role
     if (item.role) {
       const normalizedItemRole = normalizeRole(item.role, opts.rolePrefix)
       // Item is visible if user has the required role
       isVisible = normalizedItemRole ? roleSet.has(normalizedItemRole) : false
+    }
+    // Handle roles array - user needs ANY of the roles
+    else if (item.roles && Array.isArray(item.roles) && item.roles.length > 0) {
+      const normalizedItemRoles = item.roles
+        .map(r => normalizeRole(r, opts.rolePrefix))
+        .filter((r): r is string => r !== null)
+      // Item is visible if user has at least one of the required roles
+      isVisible = normalizedItemRoles.some(r => roleSet.has(r))
     }
     
     // Handle explicit hidden flag

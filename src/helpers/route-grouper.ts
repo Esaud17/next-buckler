@@ -63,6 +63,7 @@ function validateRoleReferences(
   const warnings: SecurityWarning[] = []
 
   const checkItem = (item: MenuItem) => {
+    // Check single role
     if (item.role && !definedRoles.has(item.role)) {
       const warning: SecurityWarning = {
         type: 'missing_role',
@@ -71,6 +72,21 @@ function validateRoleReferences(
         role: item.role,
       }
       warnings.push(warning)
+    }
+    
+    // Check roles array
+    if (item.roles && Array.isArray(item.roles)) {
+      item.roles.forEach(role => {
+        if (!definedRoles.has(role)) {
+          const warning: SecurityWarning = {
+            type: 'missing_role',
+            message: `Route "${item.path}" references undefined role "${role}"`,
+            path: item.path || undefined,
+            role: role,
+          }
+          warnings.push(warning)
+        }
+      })
     }
     
     item.children?.forEach(checkItem)
@@ -159,6 +175,27 @@ function extractRoutes(
         if (!groupedRoutes.roles[item.role].accessRoute && item.type === 'private') {
           groupedRoutes.roles[item.role].accessRoute = normalizedPath
         }
+      }
+      
+      // Process roles array - add route to each role's granted routes
+      if (item.roles && Array.isArray(item.roles)) {
+        item.roles.forEach(role => {
+          if (!groupedRoutes.roles[role]) {
+            groupedRoutes.roles[role] = {
+              grantedRoutes: [],
+            }
+          }
+
+          // Add route to role's granted routes if not already present
+          if (!groupedRoutes.roles[role].grantedRoutes.includes(normalizedPath)) {
+            groupedRoutes.roles[role].grantedRoutes.push(normalizedPath)
+          }
+
+          // Set access route if not already set (first route encountered becomes access route)
+          if (!groupedRoutes.roles[role].accessRoute && item.type === 'private') {
+            groupedRoutes.roles[role].accessRoute = normalizedPath
+          }
+        })
       }
     }
 
