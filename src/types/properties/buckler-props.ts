@@ -47,8 +47,8 @@ export type BucklerProps<
   userRoles?: never
 
   /**
-   * When true, throws exceptions instead of warnings for configuration errors
-   * Useful for testing and staging environments
+   * When true, logs warnings in development for RBAC configuration issues
+   * Never blocks users - only informational
    * @default false
    */
   strictMode?: boolean
@@ -85,8 +85,8 @@ export type BucklerProps<
   userRoles: string[] | undefined
 
   /**
-   * When true, throws exceptions instead of warnings for configuration errors
-   * Useful for testing and staging environments
+   * When true, logs warnings in development for RBAC configuration issues
+   * Never blocks users - only informational
    * @default false
    */
   strictMode?: boolean

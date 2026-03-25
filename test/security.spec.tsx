@@ -113,14 +113,6 @@ describe('Security Tests - Role Validation', () => {
     consoleWarnSpy.mockRestore()
   })
 
-  it('throws error in strict mode for invalid roles', () => {
-    const invalidRoles = ['invalidRole']
-
-    expect(() => {
-      getAccessRoute(mockRBAC, invalidRoles, undefined, '/default', true)
-    }).toThrow(/not found in RBAC configuration/)
-  })
-
   it('prevents granting routes to invalid roles', () => {
     const invalidRoles = ['hacker', 'malicious']
 

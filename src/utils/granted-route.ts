@@ -2,7 +2,7 @@ import { RoleAccess } from '../types/common/role-access'
 
 /**
  * Gets all routes the user has access to based on their roles
- * Validates roles and optimizes route collection
+ * @param strictMode - When true, logs warnings for missing roles in development (never blocks users)
  */
 export function getGrantedRoutes(
   RBAC: RoleAccess<string[]> | undefined,
@@ -10,35 +10,29 @@ export function getGrantedRoutes(
   accessRoute?: string | undefined,
   strictMode?: boolean
 ) {
-  const grantedRoutesSet = new Set<string>()
+  let grantedRoutes: string[] = []
   
   if (RBAC && userRoles) {
     for (const role of userRoles) {
-      // Validate role exists in RBAC configuration
-      if (!RBAC.hasOwnProperty(role)) {
-        const errorMsg = 
-          `[Buckler Security Warning] Role "${role}" not found in RBAC configuration. ` +
-          `Available roles: ${Object.keys(RBAC).join(', ')}`
-        
-        if (strictMode) {
-          throw new Error(errorMsg)
-        } else if (process.env.NODE_ENV === 'development') {
-          console.warn(errorMsg)
-        }
-        continue
+      // Check if role exists and has granted routes
+      if (RBAC.hasOwnProperty(role) && RBAC[role].hasOwnProperty('grantedRoutes')) {
+        grantedRoutes = grantedRoutes.concat(RBAC[role].grantedRoutes)
       }
       
-      if (RBAC[role]?.hasOwnProperty('grantedRoutes')) {
-        // Use Set to avoid duplicates and improve performance
-        RBAC[role].grantedRoutes.forEach(route => grantedRoutesSet.add(route))
+      // Optional validation: warn in development if role not found
+      // NEVER blocks - just informational
+      if (strictMode && !RBAC.hasOwnProperty(role) && process.env.NODE_ENV === 'development') {
+        console.warn(
+          `[Buckler] Role "${role}" not found in RBAC configuration.`,
+          `Available roles: ${Object.keys(RBAC).join(', ')}`
+        )
       }
     }
   }
 
-  // Add accessRoute if provided
-  if (accessRoute) {
-    grantedRoutesSet.add(accessRoute)
+  if (accessRoute && !grantedRoutes.includes(accessRoute)) {
+    grantedRoutes.push(accessRoute)
   }
   
-  return Array.from(grantedRoutesSet)
+  return grantedRoutes
 }
