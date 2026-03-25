@@ -1,6 +1,6 @@
 {
   "name": "next-buckler",
-  "version": "1.2.1",
+  "version": "1.2.5",
   "description": "🛡️ The shield that every Next.js app needs. Effortless authentication and authorization management with menu-based RBAC configuration.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
